@@ -339,227 +339,210 @@
 <span class="line" id="L183">        };</span>
 <span class="line" id="L184">    }</span>
 <span class="line" id="L185"></span>
-<span class="line" id="L186">    <span class="tok-comment">/// Subtracts a `MaybeRelocatable` from this one and returns the new value.</span></span>
-<span class="line" id="L187">    <span class="tok-comment">///</span></span>
-<span class="line" id="L188">    <span class="tok-comment">/// Only values of the same type may be subtracted. Specifically, attempting to</span></span>
-<span class="line" id="L189">    <span class="tok-comment">/// subtract a `.felt` with a `.relocatable` will result in an error.</span></span>
-<span class="line" id="L190">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">sub</span>(self: MaybeRelocatable, other: MaybeRelocatable) !MaybeRelocatable {</span>
-<span class="line" id="L191">        <span class="tok-kw">switch</span> (self) {</span>
-<span class="line" id="L192">            .felt =&gt; |self_value| <span class="tok-kw">switch</span> (other) {</span>
-<span class="line" id="L193">                .felt =&gt; |other_value| <span class="tok-kw">return</span> fromFelt(self_value.sub(other_value)),</span>
-<span class="line" id="L194">                .relocatable =&gt; <span class="tok-kw">return</span> <span class="tok-kw">error</span>.TypeMismatchNotFelt,</span>
-<span class="line" id="L195">            },</span>
-<span class="line" id="L196">            .relocatable =&gt; |self_value| <span class="tok-kw">switch</span> (other) {</span>
-<span class="line" id="L197">                .felt =&gt; <span class="tok-kw">return</span> <span class="tok-kw">error</span>.TypeMismatchNotFelt,</span>
-<span class="line" id="L198">                .relocatable =&gt; |other_value| <span class="tok-kw">return</span> newFromRelocatable(<span class="tok-kw">try</span> self_value.sub(other_value)),</span>
-<span class="line" id="L199">            },</span>
-<span class="line" id="L200">        }</span>
-<span class="line" id="L201">    }</span>
-<span class="line" id="L202"></span>
-<span class="line" id="L203">    <span class="tok-comment">/// Return the value of the MaybeRelocatable as a felt or error.</span></span>
-<span class="line" id="L204">    <span class="tok-comment">/// # Returns</span></span>
-<span class="line" id="L205">    <span class="tok-comment">/// The value of the MaybeRelocatable as a Relocatable felt or error.</span></span>
-<span class="line" id="L206">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">tryIntoFelt</span>(self: MaybeRelocatable) <span class="tok-kw">error</span>{TypeMismatchNotFelt}!Felt252 {</span>
-<span class="line" id="L207">        <span class="tok-kw">return</span> <span class="tok-kw">switch</span> (self) {</span>
-<span class="line" id="L208">            .relocatable =&gt; CairoVMError.TypeMismatchNotFelt,</span>
-<span class="line" id="L209">            .felt =&gt; |felt| felt,</span>
-<span class="line" id="L210">        };</span>
-<span class="line" id="L211">    }</span>
-<span class="line" id="L212"></span>
-<span class="line" id="L213">    <span class="tok-comment">/// Return the value of the MaybeRelocatable as a felt or error.</span></span>
-<span class="line" id="L214">    <span class="tok-comment">/// # Returns</span></span>
-<span class="line" id="L215">    <span class="tok-comment">/// The value of the MaybeRelocatable as a Relocatable felt or error.</span></span>
-<span class="line" id="L216">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">tryIntoU64</span>(self: MaybeRelocatable) <span class="tok-kw">error</span>{</span>
-<span class="line" id="L217">        TypeMismatchNotFelt,</span>
-<span class="line" id="L218">        ValueTooLarge,</span>
-<span class="line" id="L219">    }!<span class="tok-type">u64</span> {</span>
-<span class="line" id="L220">        <span class="tok-kw">return</span> <span class="tok-kw">switch</span> (self) {</span>
-<span class="line" id="L221">            .relocatable =&gt; CairoVMError.TypeMismatchNotFelt,</span>
-<span class="line" id="L222">            .felt =&gt; |felt| felt.tryIntoU64(),</span>
-<span class="line" id="L223">        };</span>
-<span class="line" id="L224">    }</span>
-<span class="line" id="L225"></span>
-<span class="line" id="L226">    <span class="tok-comment">/// Return the value of the MaybeRelocatable as a Relocatable.</span></span>
-<span class="line" id="L227">    <span class="tok-comment">/// # Returns</span></span>
-<span class="line" id="L228">    <span class="tok-comment">/// The value of the MaybeRelocatable as a Relocatable.</span></span>
-<span class="line" id="L229">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">tryIntoRelocatable</span>(self: MaybeRelocatable) !Relocatable {</span>
-<span class="line" id="L230">        <span class="tok-kw">return</span> <span class="tok-kw">switch</span> (self) {</span>
-<span class="line" id="L231">            .relocatable =&gt; |relocatable| relocatable,</span>
-<span class="line" id="L232">            .felt =&gt; <span class="tok-kw">error</span>.TypeMismatchNotRelocatable,</span>
-<span class="line" id="L233">        };</span>
+<span class="line" id="L186">    <span class="tok-comment">/// Return the value of the MaybeRelocatable as a felt or error.</span></span>
+<span class="line" id="L187">    <span class="tok-comment">/// # Returns</span></span>
+<span class="line" id="L188">    <span class="tok-comment">/// The value of the MaybeRelocatable as a Relocatable felt or error.</span></span>
+<span class="line" id="L189">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">tryIntoFelt</span>(self: MaybeRelocatable) <span class="tok-kw">error</span>{TypeMismatchNotFelt}!Felt252 {</span>
+<span class="line" id="L190">        <span class="tok-kw">return</span> <span class="tok-kw">switch</span> (self) {</span>
+<span class="line" id="L191">            .relocatable =&gt; CairoVMError.TypeMismatchNotFelt,</span>
+<span class="line" id="L192">            .felt =&gt; |felt| felt,</span>
+<span class="line" id="L193">        };</span>
+<span class="line" id="L194">    }</span>
+<span class="line" id="L195"></span>
+<span class="line" id="L196">    <span class="tok-comment">/// Return the value of the MaybeRelocatable as a felt or error.</span></span>
+<span class="line" id="L197">    <span class="tok-comment">/// # Returns</span></span>
+<span class="line" id="L198">    <span class="tok-comment">/// The value of the MaybeRelocatable as a Relocatable felt or error.</span></span>
+<span class="line" id="L199">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">tryIntoU64</span>(self: MaybeRelocatable) <span class="tok-kw">error</span>{</span>
+<span class="line" id="L200">        TypeMismatchNotFelt,</span>
+<span class="line" id="L201">        ValueTooLarge,</span>
+<span class="line" id="L202">    }!<span class="tok-type">u64</span> {</span>
+<span class="line" id="L203">        <span class="tok-kw">return</span> <span class="tok-kw">switch</span> (self) {</span>
+<span class="line" id="L204">            .relocatable =&gt; CairoVMError.TypeMismatchNotFelt,</span>
+<span class="line" id="L205">            .felt =&gt; |felt| felt.tryIntoU64(),</span>
+<span class="line" id="L206">        };</span>
+<span class="line" id="L207">    }</span>
+<span class="line" id="L208"></span>
+<span class="line" id="L209">    <span class="tok-comment">/// Return the value of the MaybeRelocatable as a Relocatable.</span></span>
+<span class="line" id="L210">    <span class="tok-comment">/// # Returns</span></span>
+<span class="line" id="L211">    <span class="tok-comment">/// The value of the MaybeRelocatable as a Relocatable.</span></span>
+<span class="line" id="L212">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">tryIntoRelocatable</span>(self: MaybeRelocatable) !Relocatable {</span>
+<span class="line" id="L213">        <span class="tok-kw">return</span> <span class="tok-kw">switch</span> (self) {</span>
+<span class="line" id="L214">            .relocatable =&gt; |relocatable| relocatable,</span>
+<span class="line" id="L215">            .felt =&gt; <span class="tok-kw">error</span>.TypeMismatchNotRelocatable,</span>
+<span class="line" id="L216">        };</span>
+<span class="line" id="L217">    }</span>
+<span class="line" id="L218"></span>
+<span class="line" id="L219">    <span class="tok-comment">/// Whether the MaybeRelocatable is zero or not.</span></span>
+<span class="line" id="L220">    <span class="tok-comment">/// # Returns</span></span>
+<span class="line" id="L221">    <span class="tok-comment">/// true if the MaybeRelocatable is zero, false otherwise.</span></span>
+<span class="line" id="L222">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">isZero</span>(self: MaybeRelocatable) <span class="tok-type">bool</span> {</span>
+<span class="line" id="L223">        <span class="tok-kw">return</span> <span class="tok-kw">switch</span> (self) {</span>
+<span class="line" id="L224">            .relocatable =&gt; <span class="tok-null">false</span>,</span>
+<span class="line" id="L225">            .felt =&gt; |felt| felt.isZero(),</span>
+<span class="line" id="L226">        };</span>
+<span class="line" id="L227">    }</span>
+<span class="line" id="L228"></span>
+<span class="line" id="L229">    <span class="tok-comment">/// Whether the MaybeRelocatable is a relocatable or not.</span></span>
+<span class="line" id="L230">    <span class="tok-comment">/// # Returns</span></span>
+<span class="line" id="L231">    <span class="tok-comment">/// true if the MaybeRelocatable is a relocatable, false otherwise.</span></span>
+<span class="line" id="L232">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">isRelocatable</span>(self: MaybeRelocatable) <span class="tok-type">bool</span> {</span>
+<span class="line" id="L233">        <span class="tok-kw">return</span> std.meta.activeTag(self) == .relocatable;</span>
 <span class="line" id="L234">    }</span>
 <span class="line" id="L235"></span>
-<span class="line" id="L236">    <span class="tok-comment">/// Whether the MaybeRelocatable is zero or not.</span></span>
-<span class="line" id="L237">    <span class="tok-comment">/// # Returns</span></span>
-<span class="line" id="L238">    <span class="tok-comment">/// true if the MaybeRelocatable is zero, false otherwise.</span></span>
-<span class="line" id="L239">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">isZero</span>(self: MaybeRelocatable) <span class="tok-type">bool</span> {</span>
-<span class="line" id="L240">        <span class="tok-kw">return</span> <span class="tok-kw">switch</span> (self) {</span>
-<span class="line" id="L241">            .relocatable =&gt; <span class="tok-null">false</span>,</span>
-<span class="line" id="L242">            .felt =&gt; |felt| felt.isZero(),</span>
-<span class="line" id="L243">        };</span>
-<span class="line" id="L244">    }</span>
+<span class="line" id="L236">    <span class="tok-comment">/// Returns whether the MaybeRelocatable is a felt or not.</span></span>
+<span class="line" id="L237">    <span class="tok-comment">///</span></span>
+<span class="line" id="L238">    <span class="tok-comment">/// # Returns</span></span>
+<span class="line" id="L239">    <span class="tok-comment">///</span></span>
+<span class="line" id="L240">    <span class="tok-comment">/// `true` if the MaybeRelocatable is a felt, `false` otherwise.</span></span>
+<span class="line" id="L241">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">isFelt</span>(self: MaybeRelocatable) <span class="tok-type">bool</span> {</span>
+<span class="line" id="L242">        <span class="tok-kw">return</span> std.meta.activeTag(self) == .felt;</span>
+<span class="line" id="L243">    }</span>
+<span class="line" id="L244">};</span>
 <span class="line" id="L245"></span>
-<span class="line" id="L246">    <span class="tok-comment">/// Whether the MaybeRelocatable is a relocatable or not.</span></span>
-<span class="line" id="L247">    <span class="tok-comment">/// # Returns</span></span>
-<span class="line" id="L248">    <span class="tok-comment">/// true if the MaybeRelocatable is a relocatable, false otherwise.</span></span>
-<span class="line" id="L249">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">isRelocatable</span>(self: MaybeRelocatable) <span class="tok-type">bool</span> {</span>
-<span class="line" id="L250">        <span class="tok-kw">return</span> std.meta.activeTag(self) == .relocatable;</span>
-<span class="line" id="L251">    }</span>
-<span class="line" id="L252"></span>
-<span class="line" id="L253">    <span class="tok-comment">/// Returns whether the MaybeRelocatable is a felt or not.</span></span>
-<span class="line" id="L254">    <span class="tok-comment">///</span></span>
-<span class="line" id="L255">    <span class="tok-comment">/// # Returns</span></span>
-<span class="line" id="L256">    <span class="tok-comment">///</span></span>
-<span class="line" id="L257">    <span class="tok-comment">/// `true` if the MaybeRelocatable is a felt, `false` otherwise.</span></span>
-<span class="line" id="L258">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">isFelt</span>(self: MaybeRelocatable) <span class="tok-type">bool</span> {</span>
-<span class="line" id="L259">        <span class="tok-kw">return</span> std.meta.activeTag(self) == .felt;</span>
-<span class="line" id="L260">    }</span>
-<span class="line" id="L261">};</span>
-<span class="line" id="L262"></span>
-<span class="line" id="L263"><span class="tok-comment">// Creates a new MaybeRelocatable from a Relocatable.</span>
+<span class="line" id="L246"><span class="tok-comment">// Creates a new MaybeRelocatable from a Relocatable.</span>
 </span>
-<span class="line" id="L264"><span class="tok-comment">// # Arguments</span>
+<span class="line" id="L247"><span class="tok-comment">// # Arguments</span>
 </span>
-<span class="line" id="L265"><span class="tok-comment">// - relocatable - The Relocatable to create the MaybeRelocatable from.</span>
+<span class="line" id="L248"><span class="tok-comment">// - relocatable - The Relocatable to create the MaybeRelocatable from.</span>
 </span>
-<span class="line" id="L266"><span class="tok-comment">// # Returns</span>
+<span class="line" id="L249"><span class="tok-comment">// # Returns</span>
 </span>
-<span class="line" id="L267"><span class="tok-comment">// A new MaybeRelocatable.</span>
+<span class="line" id="L250"><span class="tok-comment">// A new MaybeRelocatable.</span>
 </span>
-<span class="line" id="L268"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">newFromRelocatable</span>(relocatable: Relocatable) MaybeRelocatable {</span>
-<span class="line" id="L269">    <span class="tok-kw">return</span> .{ .relocatable = relocatable };</span>
-<span class="line" id="L270">}</span>
-<span class="line" id="L271"></span>
-<span class="line" id="L272"><span class="tok-comment">// Creates a new MaybeRelocatable from a field element.</span>
+<span class="line" id="L251"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">newFromRelocatable</span>(relocatable: Relocatable) MaybeRelocatable {</span>
+<span class="line" id="L252">    <span class="tok-kw">return</span> .{ .relocatable = relocatable };</span>
+<span class="line" id="L253">}</span>
+<span class="line" id="L254"></span>
+<span class="line" id="L255"><span class="tok-comment">// Creates a new MaybeRelocatable from a field element.</span>
 </span>
-<span class="line" id="L273"><span class="tok-comment">// # Arguments</span>
+<span class="line" id="L256"><span class="tok-comment">// # Arguments</span>
 </span>
-<span class="line" id="L274"><span class="tok-comment">// - felt - The field element to create the MaybeRelocatable from.</span>
+<span class="line" id="L257"><span class="tok-comment">// - felt - The field element to create the MaybeRelocatable from.</span>
 </span>
-<span class="line" id="L275"><span class="tok-comment">// # Returns</span>
+<span class="line" id="L258"><span class="tok-comment">// # Returns</span>
 </span>
-<span class="line" id="L276"><span class="tok-comment">// A new MaybeRelocatable.</span>
+<span class="line" id="L259"><span class="tok-comment">// A new MaybeRelocatable.</span>
 </span>
-<span class="line" id="L277"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">fromFelt</span>(felt: Felt252) MaybeRelocatable {</span>
-<span class="line" id="L278">    <span class="tok-kw">return</span> .{ .felt = felt };</span>
-<span class="line" id="L279">}</span>
-<span class="line" id="L280"></span>
-<span class="line" id="L281"><span class="tok-comment">// Creates a new MaybeRelocatable from a u256.</span>
+<span class="line" id="L260"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">fromFelt</span>(felt: Felt252) MaybeRelocatable {</span>
+<span class="line" id="L261">    <span class="tok-kw">return</span> .{ .felt = felt };</span>
+<span class="line" id="L262">}</span>
+<span class="line" id="L263"></span>
+<span class="line" id="L264"><span class="tok-comment">// Creates a new MaybeRelocatable from a u256.</span>
 </span>
-<span class="line" id="L282"><span class="tok-comment">// # Arguments</span>
+<span class="line" id="L265"><span class="tok-comment">// # Arguments</span>
 </span>
-<span class="line" id="L283"><span class="tok-comment">// - value - The u64 to create the MaybeRelocatable from.</span>
+<span class="line" id="L266"><span class="tok-comment">// - value - The u64 to create the MaybeRelocatable from.</span>
 </span>
-<span class="line" id="L284"><span class="tok-comment">// # Returns</span>
+<span class="line" id="L267"><span class="tok-comment">// # Returns</span>
 </span>
-<span class="line" id="L285"><span class="tok-comment">// A new MaybeRelocatable.</span>
+<span class="line" id="L268"><span class="tok-comment">// A new MaybeRelocatable.</span>
 </span>
-<span class="line" id="L286"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">fromU256</span>(value: <span class="tok-type">u256</span>) MaybeRelocatable {</span>
-<span class="line" id="L287">    <span class="tok-kw">return</span> .{ .felt = Felt252.fromInteger(value) };</span>
-<span class="line" id="L288">}</span>
-<span class="line" id="L289"></span>
-<span class="line" id="L290"><span class="tok-comment">// Creates a new MaybeRelocatable from a u64.</span>
+<span class="line" id="L269"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">fromU256</span>(value: <span class="tok-type">u256</span>) MaybeRelocatable {</span>
+<span class="line" id="L270">    <span class="tok-kw">return</span> .{ .felt = Felt252.fromInteger(value) };</span>
+<span class="line" id="L271">}</span>
+<span class="line" id="L272"></span>
+<span class="line" id="L273"><span class="tok-comment">// Creates a new MaybeRelocatable from a u64.</span>
 </span>
-<span class="line" id="L291"><span class="tok-comment">// # Arguments</span>
+<span class="line" id="L274"><span class="tok-comment">// # Arguments</span>
 </span>
-<span class="line" id="L292"><span class="tok-comment">// - value - The u64 to create the MaybeRelocatable from.</span>
+<span class="line" id="L275"><span class="tok-comment">// - value - The u64 to create the MaybeRelocatable from.</span>
 </span>
-<span class="line" id="L293"><span class="tok-comment">// # Returns</span>
+<span class="line" id="L276"><span class="tok-comment">// # Returns</span>
 </span>
-<span class="line" id="L294"><span class="tok-comment">// A new MaybeRelocatable.</span>
+<span class="line" id="L277"><span class="tok-comment">// A new MaybeRelocatable.</span>
 </span>
-<span class="line" id="L295"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">fromU64</span>(value: <span class="tok-type">u64</span>) MaybeRelocatable {</span>
-<span class="line" id="L296">    <span class="tok-kw">return</span> fromU256(<span class="tok-builtin">@as</span>(</span>
-<span class="line" id="L297">        <span class="tok-type">u256</span>,</span>
-<span class="line" id="L298">        value,</span>
-<span class="line" id="L299">    ));</span>
-<span class="line" id="L300">}</span>
-<span class="line" id="L301"></span>
-<span class="line" id="L302"><span class="tok-comment">// ************************************************************</span>
+<span class="line" id="L278"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">fromU64</span>(value: <span class="tok-type">u64</span>) MaybeRelocatable {</span>
+<span class="line" id="L279">    <span class="tok-kw">return</span> fromU256(<span class="tok-builtin">@as</span>(</span>
+<span class="line" id="L280">        <span class="tok-type">u256</span>,</span>
+<span class="line" id="L281">        value,</span>
+<span class="line" id="L282">    ));</span>
+<span class="line" id="L283">}</span>
+<span class="line" id="L284"></span>
+<span class="line" id="L285"><span class="tok-comment">// ************************************************************</span>
 </span>
-<span class="line" id="L303"><span class="tok-comment">// *                         TESTS                            *</span>
+<span class="line" id="L286"><span class="tok-comment">// *                         TESTS                            *</span>
 </span>
-<span class="line" id="L304"><span class="tok-comment">// ************************************************************</span>
+<span class="line" id="L287"><span class="tok-comment">// ************************************************************</span>
 </span>
-<span class="line" id="L305"><span class="tok-kw">const</span> expect = std.testing.expect;</span>
-<span class="line" id="L306"><span class="tok-kw">const</span> expectEqual = std.testing.expectEqual;</span>
-<span class="line" id="L307"><span class="tok-kw">const</span> expectError = std.testing.expectError;</span>
-<span class="line" id="L308"></span>
-<span class="line" id="L309"><span class="tok-kw">test</span> <span class="tok-str">&quot;add uint&quot;</span> {</span>
-<span class="line" id="L310">    <span class="tok-kw">const</span> relocatable = Relocatable.new(</span>
-<span class="line" id="L311">        <span class="tok-number">2</span>,</span>
-<span class="line" id="L312">        <span class="tok-number">4</span>,</span>
-<span class="line" id="L313">    );</span>
-<span class="line" id="L314">    <span class="tok-kw">const</span> result = relocatable.addUint(<span class="tok-number">24</span>);</span>
-<span class="line" id="L315">    <span class="tok-kw">const</span> expected = Relocatable.new(</span>
-<span class="line" id="L316">        <span class="tok-number">2</span>,</span>
-<span class="line" id="L317">        <span class="tok-number">28</span>,</span>
-<span class="line" id="L318">    );</span>
-<span class="line" id="L319">    <span class="tok-kw">try</span> expectEqual(</span>
-<span class="line" id="L320">        result,</span>
-<span class="line" id="L321">        expected,</span>
-<span class="line" id="L322">    );</span>
-<span class="line" id="L323">}</span>
-<span class="line" id="L324"></span>
-<span class="line" id="L325"><span class="tok-kw">test</span> <span class="tok-str">&quot;add int&quot;</span> {</span>
-<span class="line" id="L326">    <span class="tok-kw">const</span> relocatable = Relocatable.new(</span>
-<span class="line" id="L327">        <span class="tok-number">2</span>,</span>
-<span class="line" id="L328">        <span class="tok-number">4</span>,</span>
-<span class="line" id="L329">    );</span>
-<span class="line" id="L330">    <span class="tok-kw">const</span> result = relocatable.addInt(<span class="tok-number">24</span>);</span>
-<span class="line" id="L331">    <span class="tok-kw">const</span> expected = Relocatable.new(</span>
-<span class="line" id="L332">        <span class="tok-number">2</span>,</span>
-<span class="line" id="L333">        <span class="tok-number">28</span>,</span>
-<span class="line" id="L334">    );</span>
-<span class="line" id="L335">    <span class="tok-kw">try</span> expectEqual(</span>
-<span class="line" id="L336">        result,</span>
-<span class="line" id="L337">        expected,</span>
-<span class="line" id="L338">    );</span>
-<span class="line" id="L339">}</span>
-<span class="line" id="L340"></span>
-<span class="line" id="L341"><span class="tok-kw">test</span> <span class="tok-str">&quot;add int negative&quot;</span> {</span>
-<span class="line" id="L342">    <span class="tok-kw">const</span> relocatable = Relocatable.new(</span>
-<span class="line" id="L343">        <span class="tok-number">2</span>,</span>
-<span class="line" id="L344">        <span class="tok-number">4</span>,</span>
-<span class="line" id="L345">    );</span>
-<span class="line" id="L346">    <span class="tok-kw">const</span> result = relocatable.addInt(-<span class="tok-number">4</span>);</span>
-<span class="line" id="L347">    <span class="tok-kw">const</span> expected = Relocatable.new(</span>
+<span class="line" id="L288"><span class="tok-kw">const</span> expect = std.testing.expect;</span>
+<span class="line" id="L289"><span class="tok-kw">const</span> expectEqual = std.testing.expectEqual;</span>
+<span class="line" id="L290"><span class="tok-kw">const</span> expectError = std.testing.expectError;</span>
+<span class="line" id="L291"></span>
+<span class="line" id="L292"><span class="tok-kw">test</span> <span class="tok-str">&quot;add uint&quot;</span> {</span>
+<span class="line" id="L293">    <span class="tok-kw">const</span> relocatable = Relocatable.new(</span>
+<span class="line" id="L294">        <span class="tok-number">2</span>,</span>
+<span class="line" id="L295">        <span class="tok-number">4</span>,</span>
+<span class="line" id="L296">    );</span>
+<span class="line" id="L297">    <span class="tok-kw">const</span> result = relocatable.addUint(<span class="tok-number">24</span>);</span>
+<span class="line" id="L298">    <span class="tok-kw">const</span> expected = Relocatable.new(</span>
+<span class="line" id="L299">        <span class="tok-number">2</span>,</span>
+<span class="line" id="L300">        <span class="tok-number">28</span>,</span>
+<span class="line" id="L301">    );</span>
+<span class="line" id="L302">    <span class="tok-kw">try</span> expectEqual(</span>
+<span class="line" id="L303">        result,</span>
+<span class="line" id="L304">        expected,</span>
+<span class="line" id="L305">    );</span>
+<span class="line" id="L306">}</span>
+<span class="line" id="L307"></span>
+<span class="line" id="L308"><span class="tok-kw">test</span> <span class="tok-str">&quot;add int&quot;</span> {</span>
+<span class="line" id="L309">    <span class="tok-kw">const</span> relocatable = Relocatable.new(</span>
+<span class="line" id="L310">        <span class="tok-number">2</span>,</span>
+<span class="line" id="L311">        <span class="tok-number">4</span>,</span>
+<span class="line" id="L312">    );</span>
+<span class="line" id="L313">    <span class="tok-kw">const</span> result = relocatable.addInt(<span class="tok-number">24</span>);</span>
+<span class="line" id="L314">    <span class="tok-kw">const</span> expected = Relocatable.new(</span>
+<span class="line" id="L315">        <span class="tok-number">2</span>,</span>
+<span class="line" id="L316">        <span class="tok-number">28</span>,</span>
+<span class="line" id="L317">    );</span>
+<span class="line" id="L318">    <span class="tok-kw">try</span> expectEqual(</span>
+<span class="line" id="L319">        result,</span>
+<span class="line" id="L320">        expected,</span>
+<span class="line" id="L321">    );</span>
+<span class="line" id="L322">}</span>
+<span class="line" id="L323"></span>
+<span class="line" id="L324"><span class="tok-kw">test</span> <span class="tok-str">&quot;add int negative&quot;</span> {</span>
+<span class="line" id="L325">    <span class="tok-kw">const</span> relocatable = Relocatable.new(</span>
+<span class="line" id="L326">        <span class="tok-number">2</span>,</span>
+<span class="line" id="L327">        <span class="tok-number">4</span>,</span>
+<span class="line" id="L328">    );</span>
+<span class="line" id="L329">    <span class="tok-kw">const</span> result = relocatable.addInt(-<span class="tok-number">4</span>);</span>
+<span class="line" id="L330">    <span class="tok-kw">const</span> expected = Relocatable.new(</span>
+<span class="line" id="L331">        <span class="tok-number">2</span>,</span>
+<span class="line" id="L332">        <span class="tok-number">0</span>,</span>
+<span class="line" id="L333">    );</span>
+<span class="line" id="L334">    <span class="tok-kw">try</span> expectEqual(</span>
+<span class="line" id="L335">        result,</span>
+<span class="line" id="L336">        expected,</span>
+<span class="line" id="L337">    );</span>
+<span class="line" id="L338">}</span>
+<span class="line" id="L339"></span>
+<span class="line" id="L340"><span class="tok-kw">test</span> <span class="tok-str">&quot;sub uint&quot;</span> {</span>
+<span class="line" id="L341">    <span class="tok-kw">const</span> relocatable = Relocatable.new(</span>
+<span class="line" id="L342">        <span class="tok-number">2</span>,</span>
+<span class="line" id="L343">        <span class="tok-number">4</span>,</span>
+<span class="line" id="L344">    );</span>
+<span class="line" id="L345">    <span class="tok-kw">const</span> result = relocatable.subUint(<span class="tok-number">2</span>);</span>
+<span class="line" id="L346">    <span class="tok-kw">const</span> expected = Relocatable.new(</span>
+<span class="line" id="L347">        <span class="tok-number">2</span>,</span>
 <span class="line" id="L348">        <span class="tok-number">2</span>,</span>
-<span class="line" id="L349">        <span class="tok-number">0</span>,</span>
-<span class="line" id="L350">    );</span>
-<span class="line" id="L351">    <span class="tok-kw">try</span> expectEqual(</span>
-<span class="line" id="L352">        result,</span>
-<span class="line" id="L353">        expected,</span>
-<span class="line" id="L354">    );</span>
-<span class="line" id="L355">}</span>
-<span class="line" id="L356"></span>
-<span class="line" id="L357"><span class="tok-kw">test</span> <span class="tok-str">&quot;sub uint&quot;</span> {</span>
-<span class="line" id="L358">    <span class="tok-kw">const</span> relocatable = Relocatable.new(</span>
-<span class="line" id="L359">        <span class="tok-number">2</span>,</span>
-<span class="line" id="L360">        <span class="tok-number">4</span>,</span>
-<span class="line" id="L361">    );</span>
-<span class="line" id="L362">    <span class="tok-kw">const</span> result = relocatable.subUint(<span class="tok-number">2</span>);</span>
-<span class="line" id="L363">    <span class="tok-kw">const</span> expected = Relocatable.new(</span>
-<span class="line" id="L364">        <span class="tok-number">2</span>,</span>
-<span class="line" id="L365">        <span class="tok-number">2</span>,</span>
-<span class="line" id="L366">    );</span>
-<span class="line" id="L367">    <span class="tok-kw">try</span> expectEqual(</span>
-<span class="line" id="L368">        result,</span>
-<span class="line" id="L369">        expected,</span>
-<span class="line" id="L370">    );</span>
-<span class="line" id="L371">}</span>
-<span class="line" id="L372"></span>
-<span class="line" id="L373"><span class="tok-kw">test</span> <span class="tok-str">&quot;sub uint negative&quot;</span> {</span>
-<span class="line" id="L374">    <span class="tok-kw">const</span> relocatable = Relocatable.new(</span>
-<span class="line" id="L375">        <span class="tok-number">2</span>,</span>
-<span class="line" id="L376">        <span class="tok-number">4</span>,</span>
-<span class="line" id="L377">    );</span>
-<span class="line" id="L378">    <span class="tok-kw">const</span> result = relocatable.subUint(<span class="tok-number">6</span>);</span>
-<span class="line" id="L379">    <span class="tok-kw">try</span> expectError(</span>
-<span class="line" id="L380">        <span class="tok-kw">error</span>.RelocatableSubUsizeNegOffset,</span>
-<span class="line" id="L381">        result,</span>
-<span class="line" id="L382">    );</span>
-<span class="line" id="L383">}</span>
-<span class="line" id="L384"></span>
+<span class="line" id="L349">    );</span>
+<span class="line" id="L350">    <span class="tok-kw">try</span> expectEqual(</span>
+<span class="line" id="L351">        result,</span>
+<span class="line" id="L352">        expected,</span>
+<span class="line" id="L353">    );</span>
+<span class="line" id="L354">}</span>
+<span class="line" id="L355"></span>
+<span class="line" id="L356"><span class="tok-kw">test</span> <span class="tok-str">&quot;sub uint negative&quot;</span> {</span>
+<span class="line" id="L357">    <span class="tok-kw">const</span> relocatable = Relocatable.new(</span>
+<span class="line" id="L358">        <span class="tok-number">2</span>,</span>
+<span class="line" id="L359">        <span class="tok-number">4</span>,</span>
+<span class="line" id="L360">    );</span>
+<span class="line" id="L361">    <span class="tok-kw">const</span> result = relocatable.subUint(<span class="tok-number">6</span>);</span>
+<span class="line" id="L362">    <span class="tok-kw">try</span> expectError(</span>
+<span class="line" id="L363">        <span class="tok-kw">error</span>.RelocatableSubUsizeNegOffset,</span>
+<span class="line" id="L364">        result,</span>
+<span class="line" id="L365">    );</span>
+<span class="line" id="L366">}</span>
+<span class="line" id="L367"></span>
 </code></pre></body>
 </html>
