@@ -699,7 +699,7 @@
 <span class="line" id="L491"><span class="tok-comment">///</span></span>
 <span class="line" id="L492"><span class="tok-comment">/// # Returns</span></span>
 <span class="line" id="L493"><span class="tok-comment">/// - `Tuple`: A tuple containing the deduced `op1` and `res`.</span></span>
-<span class="line" id="L494"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">deduce_op1</span>(</span>
+<span class="line" id="L494"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">deduceOp1</span>(</span>
 <span class="line" id="L495">    inst: *<span class="tok-kw">const</span> instructions.Instruction,</span>
 <span class="line" id="L496">    dst: ?*<span class="tok-kw">const</span> relocatable.MaybeRelocatable,</span>
 <span class="line" id="L497">    op0: ?*<span class="tok-kw">const</span> relocatable.MaybeRelocatable,</span>
@@ -1551,7 +1551,7 @@
 <span class="line" id="L1136">    }</span>
 <span class="line" id="L1137">}</span>
 <span class="line" id="L1138"></span>
-<span class="line" id="L1139"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduce_op1 when opcode == .Call&quot;</span> {</span>
+<span class="line" id="L1139"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduceOp1 when opcode == .Call&quot;</span> {</span>
 <span class="line" id="L1140">    <span class="tok-comment">// ************************************************************</span>
 </span>
 <span class="line" id="L1141">    <span class="tok-comment">// *                 SETUP TEST CONTEXT                       *</span>
@@ -1582,7 +1582,7 @@
 <span class="line" id="L1161">        .opcode = .Call,</span>
 <span class="line" id="L1162">    };</span>
 <span class="line" id="L1163"></span>
-<span class="line" id="L1164">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduce_op1(&amp;instruction, <span class="tok-null">null</span>, <span class="tok-null">null</span>);</span>
+<span class="line" id="L1164">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduceOp1(&amp;instruction, <span class="tok-null">null</span>, <span class="tok-null">null</span>);</span>
 <span class="line" id="L1165">    <span class="tok-kw">const</span> op1 = op1_and_result[<span class="tok-number">0</span>];</span>
 <span class="line" id="L1166">    <span class="tok-kw">const</span> result = op1_and_result[<span class="tok-number">1</span>];</span>
 <span class="line" id="L1167"></span>
@@ -1596,7 +1596,7 @@
 <span class="line" id="L1172">    <span class="tok-kw">try</span> expectEqual(result, <span class="tok-null">null</span>);</span>
 <span class="line" id="L1173">}</span>
 <span class="line" id="L1174"></span>
-<span class="line" id="L1175"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduce_op1 when opcode == .AssertEq, input is felt&quot;</span> {</span>
+<span class="line" id="L1175"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduceOp1 when opcode == .AssertEq, input is felt&quot;</span> {</span>
 <span class="line" id="L1176">    <span class="tok-comment">// ************************************************************</span>
 </span>
 <span class="line" id="L1177">    <span class="tok-comment">// *                 SETUP TEST CONTEXT                       *</span>
@@ -1628,7 +1628,7 @@
 <span class="line" id="L1197"></span>
 <span class="line" id="L1198">    <span class="tok-kw">const</span> dst = relocatable.fromU64(<span class="tok-number">3</span>);</span>
 <span class="line" id="L1199">    <span class="tok-kw">const</span> op0 = relocatable.fromU64(<span class="tok-number">2</span>);</span>
-<span class="line" id="L1200">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduce_op1(&amp;instruction, &amp;dst, &amp;op0);</span>
+<span class="line" id="L1200">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduceOp1(&amp;instruction, &amp;dst, &amp;op0);</span>
 <span class="line" id="L1201">    <span class="tok-kw">const</span> op1 = op1_and_result[<span class="tok-number">0</span>];</span>
 <span class="line" id="L1202">    <span class="tok-kw">const</span> res = op1_and_result[<span class="tok-number">1</span>];</span>
 <span class="line" id="L1203"></span>
@@ -1642,7 +1642,7 @@
 <span class="line" id="L1208">    <span class="tok-kw">try</span> expect(res.?.eq(relocatable.fromU64(<span class="tok-number">3</span>)));</span>
 <span class="line" id="L1209">}</span>
 <span class="line" id="L1210"></span>
-<span class="line" id="L1211"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduce_op1 when opcode == .AssertEq, res_logic == .Mul, non-zero op0&quot;</span> {</span>
+<span class="line" id="L1211"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduceOp1 when opcode == .AssertEq, res_logic == .Mul, non-zero op0&quot;</span> {</span>
 <span class="line" id="L1212">    <span class="tok-comment">// ************************************************************</span>
 </span>
 <span class="line" id="L1213">    <span class="tok-comment">// *                 SETUP TEST CONTEXT                       *</span>
@@ -1674,7 +1674,7 @@
 <span class="line" id="L1233"></span>
 <span class="line" id="L1234">    <span class="tok-kw">const</span> dst = relocatable.fromU64(<span class="tok-number">4</span>);</span>
 <span class="line" id="L1235">    <span class="tok-kw">const</span> op0 = relocatable.fromU64(<span class="tok-number">2</span>);</span>
-<span class="line" id="L1236">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduce_op1(&amp;instruction, &amp;dst, &amp;op0);</span>
+<span class="line" id="L1236">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduceOp1(&amp;instruction, &amp;dst, &amp;op0);</span>
 <span class="line" id="L1237">    <span class="tok-kw">const</span> op1 = op1_and_result[<span class="tok-number">0</span>];</span>
 <span class="line" id="L1238">    <span class="tok-kw">const</span> res = op1_and_result[<span class="tok-number">1</span>];</span>
 <span class="line" id="L1239"></span>
@@ -1688,7 +1688,7 @@
 <span class="line" id="L1244">    <span class="tok-kw">try</span> expect(res.?.eq(relocatable.fromU64(<span class="tok-number">4</span>)));</span>
 <span class="line" id="L1245">}</span>
 <span class="line" id="L1246"></span>
-<span class="line" id="L1247"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduce_op1 when opcode == .AssertEq, res_logic == .Mul, zero op0&quot;</span> {</span>
+<span class="line" id="L1247"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduceOp1 when opcode == .AssertEq, res_logic == .Mul, zero op0&quot;</span> {</span>
 <span class="line" id="L1248">    <span class="tok-comment">// ************************************************************</span>
 </span>
 <span class="line" id="L1249">    <span class="tok-comment">// *                 SETUP TEST CONTEXT                       *</span>
@@ -1720,7 +1720,7 @@
 <span class="line" id="L1269"></span>
 <span class="line" id="L1270">    <span class="tok-kw">const</span> dst = relocatable.fromU64(<span class="tok-number">4</span>);</span>
 <span class="line" id="L1271">    <span class="tok-kw">const</span> op0 = relocatable.fromU64(<span class="tok-number">0</span>);</span>
-<span class="line" id="L1272">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduce_op1(&amp;instruction, &amp;dst, &amp;op0);</span>
+<span class="line" id="L1272">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduceOp1(&amp;instruction, &amp;dst, &amp;op0);</span>
 <span class="line" id="L1273">    <span class="tok-kw">const</span> op1 = op1_and_result[<span class="tok-number">0</span>];</span>
 <span class="line" id="L1274">    <span class="tok-kw">const</span> res = op1_and_result[<span class="tok-number">1</span>];</span>
 <span class="line" id="L1275"></span>
@@ -1734,7 +1734,7 @@
 <span class="line" id="L1280">    <span class="tok-kw">try</span> expectEqual(res, <span class="tok-null">null</span>);</span>
 <span class="line" id="L1281">}</span>
 <span class="line" id="L1282"></span>
-<span class="line" id="L1283"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduce_op1 when opcode == .AssertEq, res_logic = .Mul, no input&quot;</span> {</span>
+<span class="line" id="L1283"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduceOp1 when opcode == .AssertEq, res_logic = .Mul, no input&quot;</span> {</span>
 <span class="line" id="L1284">    <span class="tok-comment">// ************************************************************</span>
 </span>
 <span class="line" id="L1285">    <span class="tok-comment">// *                 SETUP TEST CONTEXT                       *</span>
@@ -1764,7 +1764,7 @@
 <span class="line" id="L1303">        .opcode = .AssertEq,</span>
 <span class="line" id="L1304">    };</span>
 <span class="line" id="L1305"></span>
-<span class="line" id="L1306">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduce_op1(&amp;instruction, <span class="tok-null">null</span>, <span class="tok-null">null</span>);</span>
+<span class="line" id="L1306">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduceOp1(&amp;instruction, <span class="tok-null">null</span>, <span class="tok-null">null</span>);</span>
 <span class="line" id="L1307">    <span class="tok-kw">const</span> op1 = op1_and_result[<span class="tok-number">0</span>];</span>
 <span class="line" id="L1308">    <span class="tok-kw">const</span> res = op1_and_result[<span class="tok-number">1</span>];</span>
 <span class="line" id="L1309"></span>
@@ -1778,7 +1778,7 @@
 <span class="line" id="L1314">    <span class="tok-kw">try</span> expectEqual(res, <span class="tok-null">null</span>);</span>
 <span class="line" id="L1315">}</span>
 <span class="line" id="L1316"></span>
-<span class="line" id="L1317"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduce_op1 when opcode == .AssertEq, res_logic == .Op1, no dst&quot;</span> {</span>
+<span class="line" id="L1317"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduceOp1 when opcode == .AssertEq, res_logic == .Op1, no dst&quot;</span> {</span>
 <span class="line" id="L1318">    <span class="tok-comment">// ************************************************************</span>
 </span>
 <span class="line" id="L1319">    <span class="tok-comment">// *                 SETUP TEST CONTEXT                       *</span>
@@ -1809,7 +1809,7 @@
 <span class="line" id="L1338">    };</span>
 <span class="line" id="L1339"></span>
 <span class="line" id="L1340">    <span class="tok-kw">const</span> op0 = relocatable.fromU64(<span class="tok-number">0</span>);</span>
-<span class="line" id="L1341">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduce_op1(&amp;instruction, <span class="tok-null">null</span>, &amp;op0);</span>
+<span class="line" id="L1341">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduceOp1(&amp;instruction, <span class="tok-null">null</span>, &amp;op0);</span>
 <span class="line" id="L1342">    <span class="tok-kw">const</span> op1 = op1_and_result[<span class="tok-number">0</span>];</span>
 <span class="line" id="L1343">    <span class="tok-kw">const</span> res = op1_and_result[<span class="tok-number">1</span>];</span>
 <span class="line" id="L1344"></span>
@@ -1823,7 +1823,7 @@
 <span class="line" id="L1349">    <span class="tok-kw">try</span> expectEqual(res, <span class="tok-null">null</span>);</span>
 <span class="line" id="L1350">}</span>
 <span class="line" id="L1351"></span>
-<span class="line" id="L1352"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduce_op1 when opcode == .AssertEq, res_logic == .Op1, no op0&quot;</span> {</span>
+<span class="line" id="L1352"><span class="tok-kw">test</span> <span class="tok-str">&quot;deduceOp1 when opcode == .AssertEq, res_logic == .Op1, no op0&quot;</span> {</span>
 <span class="line" id="L1353">    <span class="tok-comment">// ************************************************************</span>
 </span>
 <span class="line" id="L1354">    <span class="tok-comment">// *                 SETUP TEST CONTEXT                       *</span>
@@ -1854,7 +1854,7 @@
 <span class="line" id="L1373">    };</span>
 <span class="line" id="L1374"></span>
 <span class="line" id="L1375">    <span class="tok-kw">const</span> dst = relocatable.fromU64(<span class="tok-number">7</span>);</span>
-<span class="line" id="L1376">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduce_op1(&amp;instruction, &amp;dst, <span class="tok-null">null</span>);</span>
+<span class="line" id="L1376">    <span class="tok-kw">const</span> op1_and_result = <span class="tok-kw">try</span> deduceOp1(&amp;instruction, &amp;dst, <span class="tok-null">null</span>);</span>
 <span class="line" id="L1377">    <span class="tok-kw">const</span> op1 = op1_and_result[<span class="tok-number">0</span>];</span>
 <span class="line" id="L1378">    <span class="tok-kw">const</span> res = op1_and_result[<span class="tok-number">1</span>];</span>
 <span class="line" id="L1379"></span>
