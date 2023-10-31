@@ -263,7 +263,7 @@
 <span class="line" id="L114">    <span class="tok-comment">// The value at the given address.</span>
 </span>
 <span class="line" id="L115">    <span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">get</span>(</span>
-<span class="line" id="L116">        self: *Self,</span>
+<span class="line" id="L116">        self: *<span class="tok-kw">const</span> Self,</span>
 <span class="line" id="L117">        address: Relocatable,</span>
 <span class="line" id="L118">    ) <span class="tok-kw">error</span>{MemoryOutOfBounds}!MaybeRelocatable {</span>
 <span class="line" id="L119">        <span class="tok-kw">return</span> self.data.get(address) <span class="tok-kw">orelse</span> CairoVMError.MemoryOutOfBounds;</span>

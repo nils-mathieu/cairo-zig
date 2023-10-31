@@ -157,7 +157,7 @@
 <span class="line" id="L36"><span class="tok-comment">/// - memory: The cairo memory where addresses are looked up</span></span>
 <span class="line" id="L37"><span class="tok-comment">/// # Returns</span></span>
 <span class="line" id="L38"><span class="tok-comment">/// The felt as an integer.</span></span>
-<span class="line" id="L39"><span class="tok-kw">fn</span> <span class="tok-fn">getValue</span>(address: Relocatable, memory: *Memory) BitwiseError!<span class="tok-type">u256</span> {</span>
+<span class="line" id="L39"><span class="tok-kw">fn</span> <span class="tok-fn">getValue</span>(address: Relocatable, memory: *<span class="tok-kw">const</span> Memory) BitwiseError!<span class="tok-type">u256</span> {</span>
 <span class="line" id="L40">    <span class="tok-kw">var</span> value = memory.get(address) <span class="tok-kw">catch</span> {</span>
 <span class="line" id="L41">        <span class="tok-kw">return</span> BitwiseError.InvalidAddressForBitwise;</span>
 <span class="line" id="L42">    };</span>
@@ -179,7 +179,7 @@
 <span class="line" id="L58"><span class="tok-comment">/// - memory: The cairo memory where addresses are looked up</span></span>
 <span class="line" id="L59"><span class="tok-comment">/// # Returns</span></span>
 <span class="line" id="L60"><span class="tok-comment">/// The deduced value as a `MaybeRelocatable`</span></span>
-<span class="line" id="L61"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">deduce</span>(address: Relocatable, memory: *Memory) BitwiseError!MaybeRelocatable {</span>
+<span class="line" id="L61"><span class="tok-kw">pub</span> <span class="tok-kw">fn</span> <span class="tok-fn">deduce</span>(address: Relocatable, memory: *<span class="tok-kw">const</span> Memory) BitwiseError!MaybeRelocatable {</span>
 <span class="line" id="L62">    <span class="tok-kw">const</span> index = address.offset % CELLS_PER_BITWISE;</span>
 <span class="line" id="L63"></span>
 <span class="line" id="L64">    <span class="tok-kw">if</span> (index &lt; BITWISE_INPUT_CELLS_PER_INSTANCE) {</span>
